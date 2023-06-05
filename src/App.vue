@@ -1,30 +1,35 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  
+  <HomeView/>
+ 
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { computed, onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
+//import store from './store/store'
 
-nav {
-  padding: 30px;
-}
+import HomeView from '../src/views/HomeView.vue'
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+export default {
+  name: 'App',
+  components: {
+    HomeView
+  },
 
-nav a.router-link-exact-active {
-  color: #42b983;
+  setup(){
+    
+    const store = useStore();
+    const user = ref({
+      userId: store.commit('Elias'),
+    });
+ 
+    console.log("asdsad")
+    computed(()=>store.state.Id)
+    console.log(onMounted(()=>store.state.Id))
+    console.log('ID asignado:', store.state.Id);
+    console.log("Hola:",user)
+  //put validations
+  }
 }
-</style>
+</script>
