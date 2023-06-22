@@ -1,17 +1,13 @@
-import {createStore} from 'vuex'
-
+import { createStore } from 'vuex';
 
 export default createStore({
-     state:{
-         Id: 'Pepe'//localStorage.Id
-     },
-     mutations:{
-        newId(state){
-            state.Id ='Elias'
-        }
-     },
-     
-     actions:{
-
-     }
- })
+  state: {
+    id: localStorage.getItem('id'),
+  },
+  mutations: {
+    setId(state, id) {
+      state.id = id;
+    },
+  },
+  actions: {},
+});

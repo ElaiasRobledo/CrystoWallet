@@ -7,13 +7,17 @@ export const apiUTN = axios.create({
 
 
 export default{
-	transaction(purchase){
-		return apiUTN.post('/transaction',purchase)
+	transaction(trade){
+		return apiUTN.post('/transaction',trade)
 	},
 	getHistorial(id){
 		return apiUTN.get(`/transactions?q={"user_id": "${id}"}`)
 	},
 	delete(id){
 		return apiUTN.delete(`/transactions/${id}"}`)
+	},
+	edit(id){
+		return apiUTN.put(`/transactions/${id}"}`)
 	}
+
 }
