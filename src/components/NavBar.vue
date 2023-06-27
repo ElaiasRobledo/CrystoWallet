@@ -1,10 +1,10 @@
 <template>
   <div class="container-fluid">
     <ul>
-      <li> <router-link to="/">Home</router-link></li>
-      <li><router-link to="/about">Purchase</router-link></li>
+      <li> <router-link to="/home">Home</router-link></li>
+      <li><router-link to="/purchase">Purchase</router-link></li>
       <li><router-link to="/sell">Sell</router-link></li>
-      <li style="float:right"><a class="active" href="#about">Log Out</a></li>
+      <li style="float:right"><router-link to="/">Log Out</router-link></li>
     </ul>
   
   </div>

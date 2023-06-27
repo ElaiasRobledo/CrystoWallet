@@ -3,24 +3,12 @@
 
   <div class="container">
       <navbar></navbar>
-      
+        <h1>{{ state.btc.totalAsk }}</h1>
         <div>
           Welcome, <b>{{ user }}! </b>
         </div>
         <h2>What will be your new movement?</h2>
-   
-      <div class="grid-container">
-        <div class="grid-item">
-          <Line :chart-data="dataGraphicsBTC"></Line>
-        </div>
-        <div class="grid-item">
-          <Line :chart-data="dataGraphicsETH"></Line>
-        </div>
-        <div class="grid-item">
-          <Line :chart-data="dataGraphicsUSDC"></Line>
-        </div>
-      </div>
-      
+        <graphics></graphics>
   </div>
   
 </template>
@@ -31,72 +19,14 @@ import { computed, onMounted, reactive } from 'vue';
 import cryptoyaApi from '../services/criptoyaApi';
 import store from '@/store/store';
 import navbar from '../components/NavBar.vue'
-import { Line } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement } from 'chart.js'
-import { PointElement } from 'chart.js';
-ChartJS.register(PointElement,Title, Tooltip, Legend,BarElement,LineElement, CategoryScale, LinearScale)
+import graphics from '../components/GraphicsLine.vue'
 export default{
   components:{
     navbar,
-    Line
+    graphics
   },
   setup(){
 
-    const dataChartBTC = () =>{
-      return{
-        labels: ['1','2','3','4'],
-        datasets:[{
-          label: 'BTC Price',
-          borderWidth: 2,
-          backgroundColor: 'rgba(0, 0, 0, 1)',
-          borderColor: 'rgba(0, 255, 0, 1)',
-          lineTension: 0.5,
-          data: [
-            state.btc.ask,
-            state.btc.bid,
-            state.btc.totalAsk,
-            state.btc.totalBid,
-          ]
-        }]
-      }
-    }
-    //hacer los objetos en otro componente pero urgente
-    const dataChartUSDC = () =>{
-      return{
-        labels: ['1','2','3','4'],
-        datasets:[{
-          label: 'USDC Price',
-          borderWidth: 2,
-          backgroundColor: 'rgba(0, 0, 0, 1)',
-          borderColor: 'rgba(0, 255, 0, 1)',
-          lineTension: 0.5,
-          data: [
-            state.usdc.ask,
-            state.usdc.bid,
-            state.usdc.totalAsk,
-            state.usdc.totalBid,
-          ]
-        }]
-      }
-    }
-    const dataChartETH = () =>{
-      return{
-        labels: ['1','2','3','4'],
-        datasets:[{
-          label: 'ETH Price',
-          borderWidth: 2,
-          backgroundColor: 'rgba(0, 0, 0, 1)',
-          borderColor: 'rgba(0, 255, 0, 1)',
-          lineTension: 0.5,
-          data: [
-            state.eth.ask,
-            state.eth.bid,
-            state.eth.totalAsk,
-            state.eth.totalBid,
-          ]
-        }]
-      }
-    }
     const state = reactive({
       btc: {},
       eth: {},
@@ -115,9 +45,6 @@ export default{
       state.usdc = usdcRersponse.data;
     };
     onMounted(()=>{
-      dataChartETH(),
-      dataChartBTC(),
-      dataChartUSDC(),
       GetPrice();
     });
 
@@ -129,9 +56,6 @@ export default{
     
     
     return {
-      dataGraphicsBTC: computed(()=> dataChartBTC()),
-      dataGraphicsETH: computed(()=> dataChartETH()),
-      dataGraphicsUSDC: computed(()=>dataChartUSDC()),
       user,
       state,
       response,

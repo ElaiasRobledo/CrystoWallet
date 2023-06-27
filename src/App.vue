@@ -1,5 +1,4 @@
 <template>
-  
   <router-view></router-view>
 </template>
 
@@ -8,10 +7,6 @@
 //import HomeView from './views/HomeView.vue';
 export default {
   name: 'App',
-  components:{
-    
-    
-  },
 
 };
 

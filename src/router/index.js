@@ -1,17 +1,29 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import AboutView from '../views/AboutView.vue';
-import SellView from '../components/HelloWorld.vue'
+import LoginView from '../views/Account/LoginView.vue'
+import PurchaseView from '../views/Trade/PurchaseView.vue'
+import RegisterViews from '../views/Account/RegisterView.vue'
+import SellView from '../views/Trade/SellingView.vue'
 const routes = [
   {
     path: '/',
+    name: 'Login',
+    component: LoginView
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterViews
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: HomeView,
   },
   {
-    path: '/about',
-    name: 'About',
-    component: AboutView,
+    path: '/purchase',
+    name: 'Purchase',
+    component: PurchaseView,
   },
   {
     path: '/sell',
