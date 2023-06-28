@@ -4,6 +4,7 @@ import LoginView from '../views/Account/LoginView.vue'
 import PurchaseView from '../views/Trade/PurchaseView.vue'
 import RegisterViews from '../views/Account/RegisterView.vue'
 import SellView from '../views/Trade/SellingView.vue'
+import HistoryView from '../views/Data Info/HistoryView.vue'
 const routes = [
   {
     path: '/',
@@ -29,6 +30,11 @@ const routes = [
     path: '/sell',
     name: 'Sell',
     component: SellView
+  },
+  {
+    path: '/history',
+    name: 'History',
+    component: HistoryView
   }
 ];
 

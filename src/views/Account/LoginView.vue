@@ -23,7 +23,7 @@
                     <div class="d-flex flex-row align-items-center mb-4">
                             <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                             <div class="form-outline mb-4">
-                                <input type="text" id="form2Example2" class="form-control" v-model="password" placeholder="Password..."/>
+                                <input type="password" id="form2Example2" class="form-control" v-model="password" placeholder="Password..."/>
                             
                             </div>
                     </div>
@@ -42,7 +42,8 @@
 
               </div>
               <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
+                <img src="https://www.cronista.com/files/image/427/427823/61f4c0fa20101_360_480!.webp?s=98e116e8637c1f41b0265f05dbfa7eab&d=1643662891&oe=jpg"
+                  class="img-fluid" alt="Sample image">
             
               </div>
             </div>
@@ -55,39 +56,34 @@
 </template>
 
 <script>
-//import store from '@/store/store';
 import { useStore } from 'vuex';
-import {  computed, ref} from 'vue';
+import { ref} from 'vue';
 import router from '@/router';
-
-//import { useStore } from 'vuex';
-
 export default{
     setup() {
         const username = ref('')
         const password = ref('')
         const store = useStore();
+        const usernameusado = store.state.id;
+        const paswordusada = store.state.password;
        
         const login = () => {
-            store.commit('setId',username.value);
-            store.commit('setPassword',password.value)
-
+          if(password.value != paswordusada || username.value != usernameusado ){
+            
+              console.log("los datos no coinciden")
+          }
+          else{
+            
             console.log('Logged in:', store.state.id);
             router.push('/home')
             
+          }
+
          };
          
-         const error = computed(()=>{
-            console.log('error')
-            return username.value == '' || password.value == '';
-         })
-      
-        console.log(username.value)
-        console.log(store.state.password)
     return {
         username,
         password,
-        error,
         login
     };
   }

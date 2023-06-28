@@ -1,27 +1,37 @@
 
 <template>
     <navbar></navbar>
-   
+    <div class="container-fluid text-center" >
 
-    <div class="container">
-        <h1>que vas a comprar{{ user }}</h1>
-        <select v-model="coinSelect">
-            <option disabled value="">Please select one</option>
+        <div class="col-12">
+            <div class="card">
+        <div class="card-header">
+            <h2>Enter </h2>
+        </div>
+        <div class="card-body">
             
-            <option value="usdc">USDC</option>
-            <option value="btc">Bitcoin</option>
-            <option value="eth">Ethereum</option>
-            
-        </select>
-    
-
-        <h1>{{ coin }}</h1>
-        
-        <button type="button" class="btn btn-success" @click="Purchase">Purchase</button>
-        <br>
-        <input type="number" placeholder="0.3456" min="0.00001" v-model="amountval" >
-
-        <button type="button" class="btn btn-success" @click="GetHistorial">Historial</button>
+            <form>
+                <div class="form-group">
+                        
+                        <select v-model="coinSelect">
+                            <option disabled value="">Please select one</option>
+                            
+                            <option value="usdc">USDC</option>
+                            <option value="btc">Bitcoin</option>
+                            <option value="eth">Ethereum</option>
+                            
+                        </select>
+                    
+                </div>
+                <div class="form-group">
+                    <h2></h2>
+                    <input type="number" placeholder="0.3456" min="0.00001" v-model="amountval" >
+                </div>
+                <button type="button" class="btn btn-success" v-show="!validation" @click="Purchase">Purchase</button>
+            </form>
+        </div>
+    </div>
+        </div>
     </div>
 </template>
   
@@ -72,7 +82,7 @@
         watch(amountval,(valor)=>{
             amount.value = valor
             console.log(valor)
-            purchaseData.crypto_amount = valor;
+            purchaseData.crypto_amount = (valor).toFixed();
 
             switch(coin.value){
                 case 'btc':
@@ -91,6 +101,11 @@
             purchaseData.money = priceCoin.value; 
         })
          
+        const validation = computed(()=>{
+        
+            return coinSelect.value == '' || amountval.value == '';
+        })
+
         const GetPrice = async () => {
             const btcResponse = await cryptoyaApi.getBTC();
             const ethResponse = await cryptoyaApi.getETH();
@@ -115,7 +130,7 @@
             
         }
   
-        console.log('Los datos son: ',purchaseData)
+       
 
         const Purchase = async () => {          
                 console.log('Los datos son: ',purchaseData)
@@ -127,11 +142,7 @@
                     console.log("Error en la compra")
                 }
         }
-        const GetHistorial = async () =>{
-            await lab3api.getHistorial(store.state.id)
-            console.log('ea')
-        }
-
+       
             
          //agregar objetos a otra clase para optimizar codigoooooooooo
 
@@ -143,8 +154,8 @@
         coin,
         user,
         coinSelect,
-        GetHistorial,
         Purchase,
+        validation,
         amountval,
         coins,
         GetPrice,
@@ -154,3 +165,11 @@
 
 
 </script>
+<style>
+.card{
+    text-align: center;
+    margin: 70px;
+    
+}
+
+</style>

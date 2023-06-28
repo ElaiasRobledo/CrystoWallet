@@ -1,3 +1,4 @@
+
 import axios from "axios";
 
 export const apiUTN = axios.create({
@@ -14,12 +15,11 @@ export const apiUTN = axios.create({
 });
 export default{
 	
-
 	transaction(purchaseData){
-		return apiUTN.post(`/transaction/`, purchaseData)
+		return apiUTN.post(`/transactions`, purchaseData)
 	},
 	getHistorial(id){
-		return apiUTN.get(`/transactions/${id}`)
+		return apiUTN.get(`/transactions?q={"user_id": "${id}"}`)
 	},
 	delete(id){
 		return apiUTN.delete(`/transactions/${id}`)

@@ -49,7 +49,6 @@ export default{
             }]
         }
         }
-        //hacer los objetos en otro componente pero urgente
         const dataChartUSDC = () =>{
         return{
             labels: ['1','2','3','4'],

@@ -4,6 +4,7 @@
       <li> <router-link to="/home">Home</router-link></li>
       <li><router-link to="/purchase">Purchase</router-link></li>
       <li><router-link to="/sell">Sell</router-link></li>
+      <li><router-link to="/history">Historial</router-link></li>
       <li style="float:right"><router-link to="/">Log Out</router-link></li>
     </ul>
   

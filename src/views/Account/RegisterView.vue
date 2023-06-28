@@ -15,7 +15,7 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="text" id="form3Example1c" class="form-control" />
+                      <input type="text" id="form3Example1c" class="form-control" v-model="username"/>
                       <label class="form-label" for="form3Example1c">Your Name</label>
                     </div>
                   </div>
@@ -39,24 +39,26 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="password" id="form3Example4cd" class="form-control" />
+                      <input type="password" id="form3Example4cd" class="form-control" v-model="password" />
                       <label class="form-label" for="form3Example4cd">Repeat your password</label>
                     </div>
                   </div>
 
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="button" class="btn btn-primary btn-lg">Register</button>
+                    <button type="button" class="btn btn-primary btn-lg" @click="register">Register</button>
                   </div>
 
                 </form>
-
+                <p class="text-center text-muted mt-5 mb-0">Have already an account? <router-link to=/><u>Login here</u></router-link></p>
               </div>
               <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
 
-                <img src="https://www.santander.com/content/dam/santander-com/es/stories/contenido-stories/2021/educacionfinanciera/im-storie-guia-para-saber-que-son-las-criptomonedas-3.jpg"
+                <img src="https://e0.pxfuel.com/wallpapers/428/290/desktop-wallpaper-bitcoin-iphone-thumbnail.jpg"
                   class="img-fluid" alt="Sample image">
 
               </div>
+
+              
             </div>
           </div>
         </div>
@@ -68,4 +70,30 @@
 
 <script>
 
+import { useStore } from 'vuex';
+import {ref} from 'vue'
+import router from '@/router';
+
+export default{
+  setup(){
+
+
+      const username = ref('')
+      const password = ref('')
+      const store = useStore();
+
+      const register = () => {
+            store.commit('setId',username.value);
+            store.commit('setPassword',password.value)
+
+            console.log('Logged in:', store.state.id);
+            router.push('/home')
+          }
+      return{
+          username,
+          password,
+          register
+        }   
+  }
+}
 </script>

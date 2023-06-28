@@ -51,7 +51,7 @@
         const user = computed(()=> store.state.id);
         const sellingData = {
             user_id: ref(null),
-            action: 'purchase',
+            action: 'sale',
             crypto_code: ref(null),
             crypto_amount: ref(null),
             money: ref(null),
@@ -69,7 +69,7 @@
         watch(amountval,(valor)=>{
             amount.value = valor
             console.log(valor)
-            sellingData.crypto_amount = valor;
+            sellingData.crypto_amount = (valor).toFixed();
 
             switch(coin.value){
                 case 'btc':
