@@ -1,7 +1,7 @@
 
 <template>
     <navbar></navbar>
-    <div class="container-fluid text-center" >
+    <div class="container text-center" >
 
         <div class="col-12">
             <div class="card">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="form-group">
                     <h2></h2>
-                    <input type="number" placeholder="0.3456" min="0.00001" v-model="amountval" >
+                    <input type="decimal" placeholder="0.3456" min="0.00001" v-model="amountval" >
                 </div>
                 <button type="button" class="btn btn-success" v-show="!validation" @click="Purchase">Purchase</button>
             </form>
@@ -58,8 +58,9 @@
             eth: {},
             usdc: {},
         });
+        
         const user = computed(()=> store.state.id);
-    
+        const giftmoney = store.state.gift;
         const purchaseData = {
             user_id: ref(null),
             action: 'purchase',
@@ -82,7 +83,7 @@
         watch(amountval,(valor)=>{
             amount.value = valor
             console.log(valor)
-            purchaseData.crypto_amount = (valor).toFixed();
+            purchaseData.crypto_amount = valor;
 
             switch(coin.value){
                 case 'btc':
@@ -129,18 +130,23 @@
             purchaseData.crypto_code = coin.value;
             
         }
-  
-       
-
+        
         const Purchase = async () => {          
-                console.log('Los datos son: ',purchaseData)
-                try {
-                    console.log('Enviando....')
-                    await lab3api.transaction(purchaseData);
-                    console.log('Enviaooouu')
+            console.log('Los datos son: ',purchaseData)
+            if(purchaseData.money > giftmoney){
+                console.log('superaste la cantidad pelotudo')
+            }else{
+            const loquesobra = (giftmoney - purchaseData.money)
+            store.commit('setGiftMoney',loquesobra)
+            console.log(loquesobra)
+            try {
+                console.log('Enviando....')
+                await lab3api.transaction(purchaseData);
+                console.log('Enviaooouu')
                 } catch {
                     console.log("Error en la compra")
                 }
+            }
         }
        
             
@@ -168,7 +174,7 @@
 <style>
 .card{
     text-align: center;
-    margin: 70px;
+    /* margin: 70px; */
     
 }
 

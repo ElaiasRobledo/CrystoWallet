@@ -22,7 +22,7 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
+  background-color: #492828;
 }
 
 li {
@@ -31,10 +31,10 @@ li {
 
 li a {
   display: block;
-  color: white;
+  color: rgb(255, 255, 255);
   font-family:Verdana;
   text-align: center;
-  padding: 14px 16px;
+  padding: 20px 16px;
   text-decoration: none;
 }
 
@@ -43,6 +43,6 @@ li a:hover:not(.active) {
 }
 
 .active {
-  background-color: #00ff2a60;
+  background-color: #55ff7260;
 }
 </style>

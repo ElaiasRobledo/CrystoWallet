@@ -3,7 +3,9 @@ import { createStore } from 'vuex';
 export default createStore({
   state: {
     id: localStorage.getItem('id'),
-    password: localStorage.getItem('password')
+    password: localStorage.getItem('password'),
+    gift: localStorage.getItem('money')
+
   },
   mutations: {
     setId(state, id) {
@@ -14,6 +16,10 @@ export default createStore({
       state.password = password;
       localStorage.setItem('password',password)
     },
+    setGiftMoney(state,gift){
+      state.gift = gift;
+      localStorage.setItem('money',gift)
+    }
   },
   actions: {
   },

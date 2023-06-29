@@ -81,12 +81,14 @@ export default{
       const username = ref('')
       const password = ref('')
       const store = useStore();
+      let gift = ref(100000)
 
       const register = () => {
             store.commit('setId',username.value);
             store.commit('setPassword',password.value)
-
+            store.commit('setGiftMoney',gift.value)
             console.log('Logged in:', store.state.id);
+            console.log('plata de entrada', gift.value)
             router.push('/home')
           }
       return{

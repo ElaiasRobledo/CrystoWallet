@@ -19,7 +19,7 @@
         
         <button type="button" class="btn btn-success" @click="Sell">Sell</button>
         <br>
-        <input type="number" placeholder="0.3456" min="0.00001" v-model="amountval" >
+        <input type="decimal" placeholder="0.3456" min="0.00001" v-model="amountval" >
 
         <!-- <button type="button" class="btn btn-success" @click="GetHistorial">Historial</button> -->
     </div>
@@ -69,19 +69,19 @@
         watch(amountval,(valor)=>{
             amount.value = valor
             console.log(valor)
-            sellingData.crypto_amount = (valor).toFixed();
+            sellingData.crypto_amount = valor;
 
             switch(coin.value){
                 case 'btc':
-                priceCoin.value = (valor * coins.btc.totalAsk).toFixed();
+                priceCoin.value = (valor * coins.btc.totalBid).toFixed();
                 console.log(priceCoin.value)
                 break;
                 case 'eth':
-                priceCoin.value = (valor * coins.eth.totalAsk).toFixed();
+                priceCoin.value = (valor * coins.eth.totalBid).toFixed();
                 console.log(priceCoin.value)
                 break;
                 case 'usdc':
-                priceCoin.value = (valor * coins.usdc.totalAsk).toFixed();
+                priceCoin.value = (valor * coins.usdc.totalBid).toFixed();
                 console.log(priceCoin.value)
                 break;    
             }
@@ -112,25 +112,32 @@
             
         }
   
-        console.log('Los datos son: ',sellingData)
-
+        const giftmoney = store.state.gift;
+        
         const Sell = async () => {          
-                console.log('Los datos son de la venta son: ',sellingData)
+            if(sellingData.money > giftmoney){
+                console.log('superas la canti todno')
+            }
+            else{
+                    
+                const loquesobra = parseInt(giftmoney) + parseInt(sellingData.money);
+                store.commit('setGiftMoney',loquesobra)
+                console.log(loquesobra)
                 try {
                     console.log('Enviando....')
                     await lab3api.transaction(sellingData);
                     console.log('Enviaooouu')
-                } catch {
-                    console.log("Error en la compra")
+                    } catch {
+                        console.log("Error en la compra")
+                    }
                 }
-        }
+            }
+         
+        
         const GetHistorial = async () =>{
             await lab3api.getHistorial(store.state.id)
             console.log('ea')
         }
-
-            
-         //agregar objetos a otra clase para optimizar codigoooooooooo
 
         onBeforeMount(() => {
             GetPrice();

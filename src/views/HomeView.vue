@@ -1,9 +1,9 @@
 
 <template>
 
+  <navbar></navbar>
   <div class="container">
-      <navbar></navbar>
-        <h1>{{ state.btc.totalAsk }}</h1>
+        <h1>Tu monto es: {{ giftmoney }}</h1>
         <div>
           Welcome, <b>{{ user }}! </b>
         </div>
@@ -27,12 +27,15 @@ export default{
   },
   setup(){
 
+    
+    const user = computed(()=> store.state.id);
+    let giftmoney = computed(()=> store.state.gift);
+    console.log(store.state.gift)
     const state = reactive({
       btc: {},
       eth: {},
       usdc: {},
     });
-    const user = computed(()=> store.state.id);
     
 
     const GetPrice = async () =>{
@@ -58,6 +61,7 @@ export default{
     return {
       user,
       state,
+      giftmoney,
       response,
       GetPrice
     
