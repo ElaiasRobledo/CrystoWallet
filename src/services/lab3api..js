@@ -1,4 +1,5 @@
 
+import store from "@/store/store";
 import axios from "axios";
 
 export const apiUTN = axios.create({
@@ -18,8 +19,8 @@ export default{
 	transaction(purchaseData){
 		return apiUTN.post(`/transactions`, purchaseData)
 	},
-	getHistorial(id){
-		return apiUTN.get(`/transactions?q={"user_id": "${id}"}`)
+	getHistorial(){
+		return apiUTN.get(`/transactions?q={"user_id": "${store.state.id}"}`)
 	},
 	delete(id){
 		return apiUTN.delete(`/transactions/${id}`)
