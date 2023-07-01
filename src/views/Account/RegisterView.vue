@@ -23,7 +23,7 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="email" id="form3Example3c" class="form-control" />
+                      <input type="email" id="form3Example3c" class="form-control" v-model="email" />
                       <label class="form-label" for="form3Example3c">Your Email</label>
                     </div>
                   </div>
@@ -31,7 +31,7 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="password" id="form3Example4c" class="form-control" />
+                      <input type="password" id="form3Example4c" class="form-control" v-model="validatePassword" />
                       <label class="form-label" for="form3Example4c">Password</label>
                     </div>
                   </div>
@@ -47,7 +47,7 @@
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button type="button" class="btn btn-primary btn-lg" @click="register">Register</button>
                   </div>
-
+  
                 </form>
                 <p class="text-center text-muted mt-5 mb-0">Have already an account? <router-link to=/><u>Login here</u></router-link></p>
               </div>
@@ -79,11 +79,20 @@ export default{
 
 
       const username = ref('')
+      const email = ref('')
+      const validatePassword = ref('')
       const password = ref('')
       const store = useStore();
       let gift = ref(100000)
 
       const register = () => {
+        if(username.value == '' || password.value == ''|| email.value == '' || validatePassword.value == '' ){
+          console.log('no pueden quedar datos vacios')
+        }else{
+          if(password.value != validatePassword.value){
+            console.log('las contraseñas no coinciden')
+
+          }else{
             store.commit('setId',username.value);
             store.commit('setPassword',password.value)
             store.commit('setGiftMoney',gift.value)
@@ -91,9 +100,13 @@ export default{
             console.log('plata de entrada', gift.value)
             router.push('/home')
           }
+        }
+      }
       return{
           username,
           password,
+          email,
+          validatePassword,
           register
         }   
   }

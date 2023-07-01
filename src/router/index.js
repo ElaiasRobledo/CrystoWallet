@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import store from '@/store/store';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/Account/LoginView.vue'
 import PurchaseView from '../views/Trade/PurchaseView.vue'
@@ -20,21 +21,25 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: HomeView,
+    meta: { protectedView: true}
   },
   {
     path: '/purchase',
     name: 'Purchase',
     component: PurchaseView,
+    meta: { protectedView: true}
   },
   {
     path: '/sell',
     name: 'Sell',
-    component: SellView
+    component: SellView,
+    meta: { protectedView: true}
   },
   {
     path: '/history',
     name: 'History',
-    component: HistoryView
+    component: HistoryView,
+    meta: { protectedView: true}
   }
 ];
 
@@ -43,4 +48,12 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next)=>{
+  const view = to.matched.some((item) => item.meta.protectedView);
+  if(view && store.state.id == null)
+{
+  next('/')
+}else{
+  next();
+}})
 export default router;

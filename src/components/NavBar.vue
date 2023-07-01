@@ -1,10 +1,10 @@
 <template>
-  <div class="container-fluid">
+  <div id="nav" class="container-fluid">
     <ul>
       <li> <router-link to="/home">Home</router-link></li>
       <li><router-link to="/purchase">Purchase</router-link></li>
       <li><router-link to="/sell">Sell</router-link></li>
-      <li><router-link to="/history">Historial</router-link></li>
+      <li><router-link to="/history">History</router-link></li>
       <li style="float:right"><router-link to="/">Log Out</router-link></li>
     </ul>
   
@@ -22,7 +22,7 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #492828;
+  background-color: #9316c1;
 }
 
 li {
@@ -39,10 +39,10 @@ li a {
 }
 
 li a:hover:not(.active) {
-  background-color: #111;
+  background-color: #de9af3;
 }
 
 .active {
-  background-color: #55ff7260;
+  background-color: #33e45160;
 }
 </style>

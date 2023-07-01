@@ -1,16 +1,27 @@
 
 <template>
+  <div>
+    <navbar></navbar>
+    <h1 class="centered">Welcome, {{ user }}!</h1>
+      <h1 class="centered">What will be your next movement?</h1>
+      <h4 class="right-aligned">You have: {{ giftmoney }}</h4>
 
-  <navbar></navbar>
-  <div class="container">
-        <h1>Tu monto es: {{ giftmoney }}</h1>
-        <div>
-          Welcome, <b>{{ user }}! </b>
-        </div>
-        <h2>What will be your new movement?</h2>
-        <graphics></graphics>
+    <div class="grid-container">
+      <div class="grid-item">
+        <h2>BTC Price</h2>
+        <p v-if="response">{{ state.btc.price }}</p>
+      </div>
+      <div class="grid-item">
+        <h2>ETH Price</h2>
+        <p v-if="response">{{ state.eth.price }}</p>
+      </div>
+      <div class="grid-item">
+        <h2>USDC Price</h2>
+        <p v-if="response">{{ state.usdc.price }}</p>
+      </div>
+    </div>
+    <graphics></graphics>
   </div>
-  
 </template>
 <script>
 
@@ -27,7 +38,6 @@ export default{
   },
   setup(){
 
-    
     const user = computed(()=> store.state.id);
     let giftmoney = computed(()=> store.state.gift);
     console.log(store.state.gift)
@@ -37,7 +47,6 @@ export default{
       usdc: {},
     });
     
-
     const GetPrice = async () =>{
       const btcResponse = await cryptoyaApi.getBTC();
       const ethResponse = await cryptoyaApi.getETH();
@@ -57,7 +66,6 @@ export default{
       (state.usdc).length !== 0;
     });
     
-    
     return {
       user,
       state,
@@ -72,14 +80,33 @@ export default{
 
 </script>
 <style>
-.grid-container{
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  grid-gap: 20px;
+.container {
+  text-align: center;
+  margin-bottom: 10px;
 }
-.grid-item{
-  border: 2px solid #050505; 
-  padding: 10px; 
+
+.centered {
+  margin: 1;
+}
+
+.right-aligned {
+  text-align: right;
+  margin: 0;
+}
+#grafico {
+  position: relative;
+  top: -30%;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 20px;
+}
+.grid-item {
+  border: 3px solid #050505;
+  padding: 20px;
+  text-align: center;
 }
 
 
