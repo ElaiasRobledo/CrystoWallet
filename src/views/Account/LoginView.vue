@@ -39,11 +39,12 @@
                         />
                       </div>
                     </div>
-                    <button 
-                      v-show="username == usernameusado && password == paswordusada"
+                    <button
+                      v-show="
+                        username == usernameusado && password == paswordusada
+                      "
                       type="button"
                       class="btn btn-primary btn-block mb-4 greenButton"
-                      
                       @click="login"
                     >
                       Sign in
@@ -93,7 +94,6 @@ export default {
       if (password.value != paswordusada || username.value != usernameusado) {
         console.log("los datos no coinciden");
       } else {
-        console.log("Logged in:", store.state.id);
         router.push("/home");
       }
     };

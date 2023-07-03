@@ -96,7 +96,6 @@ export default{
             store.commit('setPassword',password.value)
             store.commit('setGiftMoney',gift.value)
             console.log('Logged in:', store.state.id);
-            console.log('plata de entrada', gift.value)
             router.push('/home')
             wasregistered.value = true;
           }
