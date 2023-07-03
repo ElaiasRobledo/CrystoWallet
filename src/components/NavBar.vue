@@ -15,7 +15,7 @@
             <router-link to="/sell"><li class="nav-item"><a class="nav-link"
             href="#">Sell</a></li></router-link>
             <router-link to="/history"><li class="nav-item"><a class="nav-link"
-            href="#">Historial</a></li></router-link>
+            href="#">History</a></li></router-link>
           </ul>
         </div>
       </div>

@@ -16,12 +16,13 @@
                       <p class="greenText">
                         <b>Select the Crypto Currency</b>
                       </p>
-                      <select id="coin" v-model="coinSelect" class="select">
+                      <select id="coin" v-model="coinSelect" class="select w-100">
                         <option value="usdc">USDC</option>
                         <option value="btc">Bitcoin</option>
                         <option value="eth">Ethereum</option>
                       </select>
                       <br />
+                      <br>
                       <div class="d-flex flex-row align-items-center mb-4">
                         <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                         <div class="form-outline mb-4">
@@ -29,6 +30,7 @@
                             <b>Enter the amount you'll buy</b>
                           </p>
                           <input
+                            
                             id="mount"
                             type="decimal"
                             placeholder="0.3456"
@@ -37,12 +39,16 @@
                           />
                         </div>
                       </div>
-
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="parseFloat(purchaseData.money) > parseFloat(giftmoney)" >
+                        <strong>You don't have enough money</strong> 
+                      </div>
                       <button
+                        v-else
                         type="button"
                         class="btn btn-primary w-100 greenButton"
                         data-toggle="modal"
                         data-target="#exampleModal"
+                        
                       >
                         Purchase
                       </button>
@@ -53,6 +59,7 @@
                         role="dialog"
                         aria-labelledby="exampleModalLabel"
                         aria-hidden="true"
+                        
                       >
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
@@ -260,6 +267,8 @@ export default {
       coin,
       user,
       coinSelect,
+      priceCoin,
+      purchaseData,
       wasbought,
       giftmoney,
       Purchase,
@@ -273,7 +282,7 @@ export default {
 </script>
 <style scoped>
 #mount {
-  width: 250px;
+  width: 350px;
   height: 30px;
 }
 #coin {

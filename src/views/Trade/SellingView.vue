@@ -16,7 +16,7 @@
                 <form class="mx-1 mx-md-4">
                  <div class="container">
                     <p class="greenText"><b>Select the Crypto Currency</b></p>
-                    <select id="coin" v-model="coinSelect" class="select" >
+                    <select id="coin" v-model="coinSelect" class="select w-100" >
                         
                         <option value="usdc">USDC</option>
                         <option value="btc">Bitcoin</option>
@@ -31,7 +31,10 @@
                             
                             </div>
                     </div>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="parseFloat(giftmoney) < parseFloat(sellingData.money)" >
+                        <strong>You exceeded the amount you have</strong> 
+                      </div>
+                    <button type="button" class="btn btn-danger w-100" data-toggle="modal" data-target="#exampleModal" v-else>
                        Sell
                     </button>
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -222,6 +225,10 @@
 
 </script>
 <style scoped>
+#mount {
+  width: 290px;
+  height: 30px;
+}
 .card{
   background-color: rgb(46, 53, 65);
 }
