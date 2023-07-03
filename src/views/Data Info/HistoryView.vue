@@ -1,91 +1,98 @@
 <template>
     <div>
       <navbar></navbar>
-      <table v-if="this.history != null" class="table table-striped">
+      <table v-if="state.historial != null" class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Moneda</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Fecha</th>
-            <th scope="col">Editar</th>
+            <th scope="col">Coin</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Price</th>
+            <th scope="col">Date</th>
+            <th scope="col">Movement</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Edit</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(element, index) in this.history" :key="index">
-            <th scope="row">{{ element.crypto_code }}</th>
-            <td>{{ element.crypto_amount }}</td>
-            <td>{{ element.money }}</td>
-            <td>{{ element.datetime }}</td>
-          </tr>
-        </tbody>
+        <tr v-for="(item, index) in state.historial" :key="index">
+          <th scope="row">{{ item.crypto_code.toUpperCase() }}</th>
+          <td>{{ item.crypto_amount }}</td>
+          <td>${{ item.money }}</td>
+          <td>{{ item.datetime.slice(0,10) }}</td>
+          <td><b>{{ item.action.toUpperCase() }}</b></td>
+          <td>
+
+            <button class="btn btn-danger mb-1" data-bs-toggle="modal"
+            data-bs-target="#modalEliminar" @click="deleteTransaction(item._id)">Delete</button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+              Edit
+            </button>
+
+            <!-- Modal -->
+          </td>
+        </tr>
+      </tbody>
       </table>
-      
 
     </div>
   </template>
   
-  <script>
+<script>
   import lab3api from "@/services/lab3api.";
   import navbar from "@/components/NavBar.vue";
-  import store from "@/store/store";
-  import axios from "axios";
+  import { onMounted,reactive } from 'vue';
   
   export default {
     components: {
       navbar,
     },
-    data() {
-      return {
-        history: null,
-        loading: true,
-        id: null,
-        setIndex: 0,
-        money: null,
-        error: false,
-      };
-    },
-    created() {
-      const apiClient = axios.create({
-        baseURL: "https://laboratorio3-f36a.restdb.io/rest",
-        headers: { "x-apikey": "60eb09146661365596af552f" },
-      });
-  
-      let json = {};
-  
-      apiClient
-        .get(`/transactions?q={"user_id": "${store.state.id}"}`)
-        .then((response) => {
-          json = response.data;
-          console.log(json);
+
+    setup() {
+        
+      const state = reactive({
+        historial: null,
+      
+      })
+      const Historial = async() =>{
+       await lab3api.getHistorial().then((response) => {        
           console.log("Data?");
           console.log(response.data);
-          this.history = response.data;
+          state.historial = response.data;
         })
         .catch((err) => {
           console.log(err);
         });
-  
+      }
       console.log("pedioo esa");
+      
+      
+
+      const deleteTransaction = (id)=>{ 
+        lab3api.delete(id)
+        console.log('eliminadoo')
+      }
+      
+      onMounted(()=>{
+        Historial()
+      })
+      //deleteTransaction()
+      return{
+        state,
+        history,
+        deleteTransaction
+      }
     },
-    setup() {
- 
-  
-      const id = store.state.id;
-      let json = [];
-      const Delete = async () => {
-        await lab3api.delete(id).then((response) => {
-          console.log("eliminadoopaa", response);
-        });
-      };
-  
-      // Historial();
-  
-      return {
-        json,
-        //   Historial,
-        Delete,
-      };
-    },
+    
   };
-  </script>
+</script>
+<style scoped>
+th{
+  color: white;
+  border-top: 0px;
+  text-align: center;
+}
+
+
+</style>

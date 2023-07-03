@@ -2,35 +2,22 @@
 <template>
   <div>
     <navbar></navbar>
-    <h1 class="centered">Welcome, {{ user }}!</h1>
-      <h1 class="centered">What will be your next movement?</h1>
-      <h4 class="right-aligned">You have: {{ giftmoney }}</h4>
-
-    <div class="grid-container">
-      <div class="grid-item">
-        <h2>BTC Price</h2>
-        <p v-if="response">{{ state.btc.price }}</p>
-      </div>
-      <div class="grid-item">
-        <h2>ETH Price</h2>
-        <p v-if="response">{{ state.eth.price }}</p>
-      </div>
-      <div class="grid-item">
-        <h2>USDC Price</h2>
-        <p v-if="response">{{ state.usdc.price }}</p>
-      </div>
-    </div>
+    <h1 class="centered text-center">Welcome, {{ user }}!</h1>
+      <h1 class="centered text-center">Which will be your next movement?</h1>
+      <h4 class="centered text-center">Balance
+        : <strong>${{ giftmoney }}</strong></h4>
     <graphics></graphics>
   </div>
 </template>
 <script>
 
-import { computed, onMounted, reactive } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 
 import cryptoyaApi from '../services/criptoyaApi';
 import store from '@/store/store';
 import navbar from '../components/NavBar.vue'
 import graphics from '../components/GraphicsLine.vue'
+
 export default{
   components:{
     navbar,
@@ -38,6 +25,7 @@ export default{
   },
   setup(){
 
+    const wasregistered = ref(false);
     const user = computed(()=> store.state.id);
     let giftmoney = computed(()=> store.state.gift);
     console.log(store.state.gift)
@@ -56,6 +44,7 @@ export default{
       state.eth = ethResponse.data;
       state.usdc = usdcRersponse.data;
     };
+
     onMounted(()=>{
       GetPrice();
     });
@@ -63,6 +52,8 @@ export default{
     const response = computed(()=>{
       return (state.btc).length !== 0 &&
       (state.eth).length !== 0 &&
+
+
       (state.usdc).length !== 0;
     });
     
@@ -71,6 +62,7 @@ export default{
       state,
       giftmoney,
       response,
+      wasregistered,
       GetPrice
     
     }
@@ -80,6 +72,11 @@ export default{
 
 </script>
 <style>
+#app{
+  background-color: rgb(33, 38, 46);
+  color: white;
+  height: 100vh;
+}
 .container {
   text-align: center;
   margin-bottom: 10px;
@@ -103,12 +100,14 @@ export default{
   gap: 20px;
   margin: 20px;
 }
-.grid-item {
-  border: 3px solid #050505;
-  padding: 20px;
-  text-align: center;
+.card{
+  background-color: rgb(46, 53, 65);
 }
-
-
+/* .grid-item {
+  background-color:rgb(237, 242, 247);
+  border: 3px solid #050505;
+  padding: 4px;
+  text-align: center;
+} */
 </style>
 

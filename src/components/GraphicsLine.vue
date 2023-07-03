@@ -1,110 +1,161 @@
 <template>
-    <div class="grid-container">
-        <div class="grid-item">
-          <Line :chart-data="dataGraphicsBTC"></Line>
-        </div>
-        <div class="grid-item">
-          <Line :chart-data="dataGraphicsETH"></Line>
-        </div>
-        <div class="grid-item">
-          <Line :chart-data="dataGraphicsUSDC"></Line>
+  <div class="container-fluid text-center">
+    <div class="row p-4">
+      <div class="col-md-4 col-sm-12 graphicCard">
+        <div class="card">
+          <div class="card-body">
+            <div class="grid-item">
+              <h4 class="text-center">Bitcoin</h4>
+              <Line :chart-data="dataGraphicsBTC"></Line>
+            </div>
+          </div>
         </div>
       </div>
+      <div class="col-md-4 col-sm-12 graphicCard">
+        <div class="card">
+          <div class="card-body">
+            <div class="grid-item">
+              <h4 class="text-center">Ethereum</h4>
+              <Line :chart-data="dataGraphicsETH"></Line>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12 graphicCard">
+        <div class="card">
+          <div class="card-body">
+            <div class="grid-item">
+              <h4 class="text-center">USDC</h4>
+              <Line :chart-data="dataGraphicsUSDC"></Line>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import { computed, onMounted, reactive } from 'vue';
-import { Line } from 'vue-chartjs';
-import cryptoyaApi from '../services/criptoyaApi';
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement } from 'chart.js'
-import { PointElement } from 'chart.js';
-ChartJS.register(PointElement,Title, Tooltip, Legend,BarElement,LineElement, CategoryScale, LinearScale)
-export default{
-    components:{
-        Line
-    },
-    setup(){
+import { computed, onMounted, reactive } from "vue";
+import { Line } from "vue-chartjs";
+import cryptoyaApi from "../services/criptoyaApi";
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  LineElement,
+} from "chart.js";
+import { PointElement } from "chart.js";
+ChartJS.register(
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  LineElement,
+  CategoryScale,
+  LinearScale
+);
+export default {
+  components: {
+    Line,
+  },
+  setup() {
+    const state = reactive({
+      btc: {},
+      eth: {},
+      usdc: {},
+    });
 
-        const state = reactive({
-                btc: {},
-                eth: {},
-                usdc: {},
-        });
-
-        const dataChartBTC = () =>{
-        return{
-            labels: ['1','2','3','4'],
-            datasets:[{
-            label: 'BTC Price',
+    const dataChartBTC = () => {
+      return {
+        labels: ["1", "2", "3", "4"],
+        datasets: [
+          {
+            label: "Price",
             borderWidth: 2,
-            backgroundColor: 'rgba(0, 0, 0, 1)',
-            borderColor: 'rgba(0, 255, 0, 1)',
+            backgroundColor: "rgba(0, 0, 0, 1)",
+            borderColor: "rgba(0, 255, 0, 1)",
             lineTension: 0.5,
             data: [
-                state.btc.ask,
-                state.btc.bid,
-                state.btc.totalAsk,
-                state.btc.totalBid,
-            ]
-            }]
-        }
-        }
-        const dataChartUSDC = () =>{
-        return{
-            labels: ['1','2','3','4'],
-            datasets:[{
-            label: 'USDC Price',
+              state.btc.ask,
+              state.btc.bid,
+              state.btc.totalAsk,
+              state.btc.totalBid,
+            ],
+          },
+        ],
+      };
+    };
+    const dataChartUSDC = () => {
+      return {
+        labels: ["1", "2", "3", "4"],
+        datasets: [
+          {
+            label: "Price",
             borderWidth: 2,
-            backgroundColor: 'rgba(0, 0, 0, 1)',
-            borderColor: 'rgba(0, 255, 0, 1)',
+            backgroundColor: "rgba(0, 0, 0, 1)",
+            borderColor: "rgba(0, 255, 0, 1)",
             lineTension: 0.5,
             data: [
-                state.usdc.ask,
-                state.usdc.bid,
-                state.usdc.totalAsk,
-                state.usdc.totalBid,
-            ]
-            }]
-        }
-        }
-        const dataChartETH = () =>{
-        return{
-            labels: ['1','2','3','4'],
-            datasets:[{
-            label: 'ETH Price',
+              state.usdc.ask,
+              state.usdc.bid,
+              state.usdc.totalAsk,
+              state.usdc.totalBid,
+            ],
+          },
+        ],
+      };
+    };
+    const dataChartETH = () => {
+      return {
+        labels: ["1", "2", "3", "4"],
+        datasets: [
+          {
+            label: "Price",
             borderWidth: 2,
-            backgroundColor: 'rgba(0, 0, 0, 1)',
-            borderColor: 'rgba(0, 255, 0, 1)',
+            backgroundColor: "rgba(0, 0, 0, 1)",
+            borderColor: "rgba(0, 255, 0, 1)",
             lineTension: 0.5,
             data: [
-                state.eth.ask,
-                state.eth.bid,
-                state.eth.totalAsk,
-                state.eth.totalBid,
-            ]
-            }]
-        }
-        }
-        const GetPrice = async () =>{
-            const btcResponse = await cryptoyaApi.getBTC();
-            const ethResponse = await cryptoyaApi.getETH();
-            const usdcRersponse = await cryptoyaApi.getUSDC();
-            console.log("Los datos del BTC son:",usdcRersponse.data)
-            state.btc = btcResponse.data;
-            state.eth = ethResponse.data;
-            state.usdc = usdcRersponse.data;
-        };
-         onMounted(()=>{
-            dataChartETH(),
-            dataChartBTC(),
-            dataChartUSDC(),
-            GetPrice();
-        });
-        return{
-            dataGraphicsBTC: computed(()=> dataChartBTC()),
-            dataGraphicsETH: computed(()=> dataChartETH()),
-            dataGraphicsUSDC: computed(()=>dataChartUSDC()),
-        }
-    }
-}
+              state.eth.ask,
+              state.eth.bid,
+              state.eth.totalAsk,
+              state.eth.totalBid,
+            ],
+          },
+        ],
+      };
+    };
+    const GetPrice = async () => {
+      const btcResponse = await cryptoyaApi.getBTC();
+      const ethResponse = await cryptoyaApi.getETH();
+      const usdcRersponse = await cryptoyaApi.getUSDC();
+      console.log("Los datos del BTC son:", usdcRersponse.data);
+      state.btc = btcResponse.data;
+      state.eth = ethResponse.data;
+      state.usdc = usdcRersponse.data;
+    };
+    onMounted(() => {
+      dataChartETH(), dataChartBTC(), dataChartUSDC(), GetPrice();
+    });
+    return {
+      dataGraphicsBTC: computed(() => dataChartBTC()),
+      dataGraphicsETH: computed(() => dataChartETH()),
+      dataGraphicsUSDC: computed(() => dataChartUSDC()),
+    };
+  },
+};
 </script>
+<style scoped>
+.card {
+  background-color: rgb(46, 53, 65);
+}
+.graphicCard {
+  margin-top: 16px;
+}
+</style>

@@ -3,21 +3,19 @@
     <navbar></navbar>
    
 
-    <section class="vh-100" style="background-color: #ffffff;">
+    <section>
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
         <h1>You have: ${{ giftmoney }}</h1>
       <div class="col-lg-12 col-xl-11">
-        <div class="card text-black" style="border-radius: 25px;">
+        <div class="card purchase-card" style="border-radius: 25px;">
           <div class="card-body p-md-5">
             <div class="row justify-content-center">
               <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">It's your moment to get rich</p>
-
                 <form class="mx-1 mx-md-4">
                  <div class="container">
-                    <p style="color:rgb(20, 138, 255);"><b>Select the Crypto Currency</b></p>
+                    <p class="greenText"><b>Select the Crypto Currency</b></p>
                     <select id="coin" v-model="coinSelect" class="select" >
                         
                         <option value="usdc">USDC</option>
@@ -28,14 +26,46 @@
                     <div class="d-flex flex-row align-items-center mb-4">
                             <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                             <div class="form-outline mb-4">
-                                <p style="color:rgb(20, 138, 255);"><b>Enter the amount you'll buy</b></p>
+                                <p class="greenText"><b>Enter the amount you'll sell</b></p>
                                 <input id="mount" type="decimal" placeholder="0.3456" min="0.00001" v-model="amountval" >
                             
                             </div>
                     </div>
-
-                        <!-- Submit button -->
-                        <button type="button" class="btn btn-danger" @click="Sell" >Sell</button>            
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                       Sell
+                    </button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div v-if="amountval == null">
+                            <div class="modal-body">
+                                <h3><b> Enter data</b></h3>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="modal-body">
+                                <h3><b> Are you sure?</b></h3>
+                            </div>
+                            <div class="modal-footer" >
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">I'm afraid</button>
+                                <button type="button" class="btn btn-success" @click="Sell">Yes, I'm sure</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>      
+                    <br>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="wassold">
+                        <strong>Congratulations {{ user }}!</strong> <br> Successful Sale
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
                 </div>
                 </form>
 
@@ -66,7 +96,7 @@
         navbar,
     },
     setup() {
-        
+        const wassold = ref(false);
         const amountval = ref(null);
         const amount = ref(null);
         const coinSelect = ref(null);
@@ -155,6 +185,7 @@
                 try {
                     console.log('Enviando....')
                     await lab3api.transaction(sellingData);
+                    wassold.value = true;
                     console.log('Enviaooouu')
                     } catch {
                         console.log("Error en la compra")
@@ -175,6 +206,7 @@
         return {
         coin,
         coinSelect,
+        wassold,
         giftmoney,
         sellingData,
         user,
@@ -189,3 +221,23 @@
 
 
 </script>
+<style scoped>
+.card{
+  background-color: rgb(46, 53, 65);
+}
+.greenText{
+    color: rgb(46, 196, 81);
+}
+.modal-content{
+    background-color: rgb(33, 38, 46);
+}
+.modal-header{
+    background-color: rgb(46, 53, 65);
+    border-bottom: 0px;
+
+}
+.modal-footer{
+    border-top-color: rgb(46, 196, 81); 
+
+}
+</style>

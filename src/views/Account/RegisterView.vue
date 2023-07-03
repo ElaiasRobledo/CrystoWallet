@@ -1,10 +1,9 @@
 <template>
-<section class="vh-100" style="background-color: #eee;">
   <div class="container h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="row d-flex justify-content-center align-items-center">
       <div class="col-lg-12 col-xl-11">
-        <div class="card text-black" style="border-radius: 25px;">
-          <div class="card-body p-md-5">
+        <div class="card">
+          <div class="card-body">
             <div class="row justify-content-center">
               <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
@@ -43,29 +42,28 @@
                       <label class="form-label" for="form3Example4cd">Repeat your password</label>
                     </div>
                   </div>
-
-                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="button" class="btn btn-primary btn-lg" @click="register">Register</button>
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="validatePassword != password" >
+                    <strong>Password doesn't match</strong> 
                   </div>
-  
+                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4" v-else>
+                    <button type="button" class="btn btn-primary btn-lg w-100 greenButton" @click="register">Register</button>
+                  </div >
+                  
                 </form>
-                <p class="text-center text-muted mt-5 mb-0">Have already an account? <router-link to=/><u>Login here</u></router-link></p>
+                <p class="text-center text-muted mt-5 mb-0">Have already an account? <router-link class="greenLink" to=/><u>Login here</u></router-link></p>
               </div>
               <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
+                
                 <img src="https://e0.pxfuel.com/wallpapers/428/290/desktop-wallpaper-bitcoin-iphone-thumbnail.jpg"
-                  class="img-fluid" alt="Sample image">
-
+                class="img-fluid" alt="Sample image">
+                
               </div>
-
-              
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
 </template>
 
 <script>
@@ -83,7 +81,8 @@ export default{
       const validatePassword = ref('')
       const password = ref('')
       const store = useStore();
-      let gift = ref(100000)
+      let gift = ref(100000);
+      const wasregistered = ref(false);
 
       const register = () => {
         if(username.value == '' || password.value == ''|| email.value == '' || validatePassword.value == '' ){
@@ -99,6 +98,7 @@ export default{
             console.log('Logged in:', store.state.id);
             console.log('plata de entrada', gift.value)
             router.push('/home')
+            wasregistered.value = true;
           }
         }
       }
@@ -106,9 +106,41 @@ export default{
           username,
           password,
           email,
+          wasregistered,
           validatePassword,
           register
         }   
   }
 }
 </script>
+<style scoped>
+.card {
+  margin-top:36px;
+  background-color: rgb(46, 53, 65);
+  border-radius: 25px;
+
+}
+.container{
+  height: 100vh;
+  padding: 0px;
+
+}
+html{
+  height: 100%;
+}
+.greenButton{
+  background-color: rgb(46, 196, 81);
+  border-color: rgb(46, 196, 81); 
+}
+.greenButton:hover{
+  background-color: rgb(30, 129, 53);
+  border-color: rgb(30, 129, 53); 
+
+}
+.greenLink{
+  color: rgb(46, 196, 81); 
+}
+.greenLink:hover{
+  color: rgb(30, 129, 53); 
+}
+</style>

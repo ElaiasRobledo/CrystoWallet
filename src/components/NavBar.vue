@@ -1,13 +1,28 @@
 <template>
-  <div id="nav" class="container-fluid">
-    <ul>
-      <li> <router-link to="/home">Home</router-link></li>
-      <li><router-link to="/purchase">Purchase</router-link></li>
-      <li><router-link to="/sell">Sell</router-link></li>
-      <li><router-link to="/history">History</router-link></li>
-      <li style="float:right"><router-link to="/">Log Out</router-link></li>
-    </ul>
-  
+  <div class="container-fluid">
+    <nav class="navbar navbar-expand-md navbar-light bg-lightborder-bottom p-3 mb-5 bg-body nav-border">
+      <div class="container-fluid">
+        <router-link to="/home" class="sintd">Home</router-link>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse"
+        data-bs-target="#MenuNavegacion">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="MenuNavegacion" class="collapse navbar-collapse" aria-haspopup="true"
+        aria-expanded="false">
+          <ul class="navbar-nav ms-3">
+            <router-link to="/purchase"><li class="nav-item"><a class="nav-link"
+            href="#">Purchase</a></li></router-link>
+            <router-link to="/sell"><li class="nav-item"><a class="nav-link"
+            href="#">Sell</a></li></router-link>
+            <router-link to="/history"><li class="nav-item"><a class="nav-link"
+            href="#">Historial</a></li></router-link>
+          </ul>
+        </div>
+      </div>
+      <ul class="navbar-nav ml-auto nav-flex-icons me-5">
+        <li style="float:right"><router-link to="/">Log Out</router-link></li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -16,33 +31,31 @@ export default{
 
 }
 </script>
-<style>
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #9316c1;
+<style scoped>
+.nav-border{
+  border-bottom: 2px solid rgb(46, 196, 81);
 }
-
-li {
-  float: left;
+.container-fluid{
+  background-color: rgb(33, 38, 46);
 }
-
-li a {
-  display: block;
-  color: rgb(255, 255, 255);
-  font-family:Verdana;
-  text-align: center;
-  padding: 20px 16px;
+a.nav-link:hover{
+  font-weight: bold;
+  text-decoration: underline !important;
+  text-decoration-color: rgb(46, 196, 81) !important;
+}
+a.nav-link{
+  margin-right: 12px;
+  margin-left: 12px;
+  color: white !important;
+  text-decoration: none !important;
+}
+.sintd{
   text-decoration: none;
+  color: rgb(46, 196, 81);
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 6px;
+  margin-right: 24px;
 }
 
-li a:hover:not(.active) {
-  background-color: #de9af3;
-}
-
-.active {
-  background-color: #33e45160;
-}
 </style>
