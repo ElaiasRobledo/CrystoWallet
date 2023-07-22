@@ -82,6 +82,9 @@ export default{
       const password = ref('')
       const store = useStore();
       let gift = ref(100000);
+      let btcamount = ref(0)
+      let ethamount = ref(0)
+      let usdcamount = ref(0)
       const wasregistered = ref(false);
 
       const register = () => {
@@ -95,6 +98,9 @@ export default{
             store.commit('setId',username.value);
             store.commit('setPassword',password.value)
             store.commit('setGiftMoney',gift.value)
+            store.commit('setBTC',btcamount.value)
+            store.commit('setETH',ethamount.value)
+            store.commit('setUSDC',usdcamount.value)
             console.log('Logged in:', store.state.id);
             router.push('/home')
             wasregistered.value = true;

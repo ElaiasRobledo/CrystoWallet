@@ -25,6 +25,7 @@ export default{
   },
   setup(){
 
+    let isLoading = ref(false)
     const wasregistered = ref(false);
     const user = computed(()=> store.state.id);
     let giftmoney = computed(()=> store.state.gift);
@@ -45,19 +46,19 @@ export default{
       state.usdc = usdcRersponse.data;
     };
 
-    onMounted(()=>{
-      GetPrice();
+    onMounted(async ()=>{
+      isLoading.value = true;
+      await GetPrice();
     });
 
     const response = computed(()=>{
       return (state.btc).length !== 0 &&
       (state.eth).length !== 0 &&
-
-
       (state.usdc).length !== 0;
     });
     
     return {
+      isLoading,
       user,
       state,
       giftmoney,

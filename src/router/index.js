@@ -6,6 +6,7 @@ import PurchaseView from '../views/Trade/PurchaseView.vue'
 import RegisterViews from '../views/Account/RegisterView.vue'
 import SellView from '../views/Trade/SellingView.vue'
 import HistoryView from '../views/Data Info/HistoryView.vue'
+import CurrentState from '../views/Data Info/CurrentState.vue'
 const routes = [
   {
     path: '/',
@@ -40,6 +41,12 @@ const routes = [
     name: 'History',
     component: HistoryView,
     meta: { protectedView: true}
+  },
+  {
+    path: '/state',
+    name: 'CurrentState',
+    component: CurrentState,
+    meta: {protectedView: true}
   }
 ];
 

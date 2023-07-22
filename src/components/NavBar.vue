@@ -16,6 +16,8 @@
             href="#">Sell</a></li></router-link>
             <router-link to="/history"><li class="nav-item"><a class="nav-link"
             href="#">History</a></li></router-link>
+            <router-link to="/state"><li class="nav-item"><a class="nav-link"
+            href="#">Current State</a></li></router-link>
           </ul>
         </div>
       </div>

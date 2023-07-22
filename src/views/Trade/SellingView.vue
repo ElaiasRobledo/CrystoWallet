@@ -4,7 +4,9 @@
   <section>
     <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
-        <h1>You have: ${{ giftmoney }}</h1>
+        <h4>
+          Your balance is: <b id="h4">${{ giftmoney }}</b>
+        </h4>
         <div class="col-lg-12 col-xl-11">
           <div class="card purchase-card" style="border-radius: 25px">
             <div class="card-body p-md-5">
@@ -34,10 +36,11 @@
                           </p>
                           <input
                             id="mount"
-                            type="decimal"
+                            type="number"
                             placeholder="0.3456"
                             min="0.00001"
                             v-model="amountval"
+                            onkeydown="return event.keyCode !== 189 && event.keyCode !== 187;"
                           />
                         </div>
                       </div>
@@ -45,7 +48,21 @@
                         class="alert alert-danger alert-dismissible fade show"
                         role="alert"
                         v-if="
-                          parseFloat(giftmoney) < parseFloat(sellingData.money)
+                          (coinSelect === 'btc' &&
+                            parseFloat(btcamount) === 0) ||
+                          (coinSelect === 'eth' &&
+                            parseFloat(ethamount) === 0) ||
+                          (coinSelect === 'usdc' &&
+                            parseFloat(usdcamount) === 0)
+                        "
+                      >
+                        <strong>You don't have any coin yet, Buy right now!</strong>
+                      </div>
+                      <div
+                        class="alert alert-danger alert-dismissible fade show"
+                        role="alert"
+                        v-if="
+                          parseFloat(sellingData.money) > parseFloat(giftmoney)
                         "
                       >
                         <strong>You exceeded the amount you have</strong>
@@ -55,10 +72,22 @@
                         class="btn btn-danger w-100"
                         data-toggle="modal"
                         data-target="#exampleModal"
-                        v-else
+                        v-if="
+                          !(
+                            (coinSelect === 'btc' &&
+                              parseFloat(btcamount) === 0) ||
+                            (coinSelect === 'eth' &&
+                              parseFloat(ethamount) === 0) ||
+                            (coinSelect === 'usdc' &&
+                              parseFloat(usdcamount) === 0) ||
+                            parseFloat(sellingData.money) >
+                              parseFloat(giftmoney)
+                          )
+                        "
                       >
                         Sell
                       </button>
+                      <br />
                       <div
                         class="modal fade"
                         id="exampleModal"
@@ -88,20 +117,21 @@
                               <div class="modal-body">
                                 <h3><b> Are you sure?</b></h3>
                               </div>
-                              <div class="modal-footer">
+                              <div class="modal-footer mx-5">
                                 <button
                                   type="button"
                                   class="btn btn-danger"
                                   data-dismiss="modal"
                                 >
-                                  I'm afraid
+                                  Cancel
                                 </button>
                                 <button
                                   type="button"
                                   class="btn btn-success"
+                                  data-dismiss="modal"
                                   @click="Sell"
                                 >
-                                  Yes, I'm sure
+                                  Go on
                                 </button>
                               </div>
                             </div>
@@ -153,6 +183,7 @@ import cryptoyaApi from "@/services/criptoyaApi";
 import lab3api from "@/services/lab3api.";
 import navbar from "@/components/NavBar.vue";
 import store from "@/store/store";
+import { isAxiosError } from "axios";
 export default {
   components: {
     navbar,
@@ -170,6 +201,10 @@ export default {
       usdc: {},
     });
     const user = computed(() => store.state.id);
+    const giftmoney = store.state.gift;
+    const btcamount = store.state.btcamount;
+    const ethamount = store.state.ethamount;
+    const usdcamount = store.state.usdcamount;
     const sellingData = {
       user_id: ref(null),
       action: "sale",
@@ -234,11 +269,12 @@ export default {
       sellingData.crypto_code = coin.value;
     }
 
-    const giftmoney = store.state.gift;
-
     const Sell = async () => {
-      if (parseFloat(giftmoney) < parseFloat(sellingData.money)) {
-        console.log("superaste la cantidad");
+      if (
+        isNaN(parseFloat(sellingData.money)) ||
+        isAxiosError(parseFloat(sellingData.money))
+      ) {
+        console.log("valor ingresado es correcto");
       } else {
         const loquesobra =
           parseFloat(giftmoney) + parseFloat(sellingData.money);
@@ -249,6 +285,32 @@ export default {
           await lab3api.transaction(sellingData);
           wassold.value = true;
           console.log("Enviaooouu");
+          const loquesobra =
+            parseFloat(giftmoney) + parseFloat(sellingData.money);
+          store.commit("setGiftMoney", loquesobra);
+
+          let totalusdc =
+            parseFloat(usdcamount) - parseFloat(sellingData.money);
+          let totaleth = parseFloat(ethamount) - parseFloat(sellingData.money);
+          let totalbtc = parseFloat(btcamount) - parseFloat(sellingData.money);
+
+          switch (sellingData.crypto_code) {
+            case "btc":
+              store.commit("setBTC", totalbtc);
+              console.log(totalbtc);
+              break;
+            case "eth":
+              store.commit("setETH", totaleth);
+              console.log(totaleth);
+              break;
+            case "usdc":
+              store.commit("setUSDC", totalusdc);
+              console.log(totalusdc);
+              break;
+          }
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
         } catch {
           console.log("Error en la compra");
         }
@@ -261,6 +323,9 @@ export default {
 
     return {
       coin,
+      ethamount,
+      btcamount,
+      usdcamount,
       coinSelect,
       wassold,
       giftmoney,
@@ -275,6 +340,9 @@ export default {
 };
 </script>
 <style scoped>
+#h4 {
+  color: rgb(255, 255, 88);
+}
 #mount {
   width: 290px;
   height: 30px;

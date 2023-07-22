@@ -8,9 +8,6 @@ export const apiUTN = axios.create({
 	
 	headers: {'x-apikey': '60eb09146661365596af552f',
 	Accept: 'application/json',
-	'Access-Control-Allow-Origin' : '*',
-	'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
-	'Content-Type': 'application/json',
 	},
 	
 });
@@ -25,8 +22,8 @@ export default{
 	delete(id){
 		return apiUTN.delete(`/transactions/${id}`)
 	},
-	edit(id){
-		return apiUTN.put(`/transactions/${id}`)
+	edit(id,editar){
+		return apiUTN.patch(`/transactions/${id}`, editar)
 	}
 
 }
