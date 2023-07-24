@@ -108,6 +108,7 @@
                     <h3 class="modal-title" id="'exampleModalLabel-' + index">
                       Purchase Details
                     </h3>
+                    <h6><b>this functionality is currently under maintenance</b></h6>
                     <button
                       type="button"
                       class="close"

@@ -84,11 +84,17 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div v-if="amountval === null || amountval === 0">
-                            <div class="modal-body">
-                              <h3><b> Enter some value</b></h3>
+                          <div v-if="amountval === null || amountval === 0 || amountval === undefined || amountval === ''">
+                              <div class="modal-body">
+                                <h3><b> Enter some value...</b></h3>
+                              </div>
+                            </div> 
+                            <div v-else-if="coinSelect === null"
+                            >
+                              <div class="modal-body">
+                                <h3><b> Enter some coin...</b></h3>
+                              </div>
                             </div>
-                          </div>
                           <div v-else>
                             <div class="modal-body">
                               <h3><b> Are you sure?</b></h3>

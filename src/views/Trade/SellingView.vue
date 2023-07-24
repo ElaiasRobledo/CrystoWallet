@@ -60,10 +60,11 @@
                           >You don't have any coin yet, Buy right now!</strong
                         >
                       </div>
+                      
                       <div
                         class="alert alert-danger alert-dismissible fade show"
                         role="alert"
-                        v-if="
+                        v-else-if="
                           parseFloat(sellingData.money) > parseFloat(giftmoney)
                         "
                       >
@@ -99,21 +100,19 @@
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
-                            <!-- <div v-if="amountval === null || amountval === 0">
+                            <div v-if="amountval === null || amountval === 0 || amountval === undefined || amountval === ''">
                               <div class="modal-body">
-                                <h3><b> Enter data</b></h3>
+                                <h3><b> Enter some value...</b></h3>
                               </div>
-                            </div> -->
-                            <div v-if="coinSelect === null && amountval === null || amountval === 0 ||
-                            coinSelect !== null && amountval === null || amountval === 0 ||
-                            coinSelect === null && amountval !== null"
+                            </div> 
+                            <div v-else-if="coinSelect === null"
                             >
                               <div class="modal-body">
                                 <h3><b> Enter some coin...</b></h3>
                               </div>
                             </div>
                           
-                            <div v-else>
+                            <div  v-else>
                               <div class="modal-body">
                                 <h3><b> Are you sure?</b></h3>
                               </div>
