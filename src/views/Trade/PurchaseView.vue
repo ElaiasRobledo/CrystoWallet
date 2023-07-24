@@ -39,7 +39,7 @@
                           placeholder="0.3456"
                           min="0.00001"
                           v-model="amountval"
-                          onkeydown="return event.keyCode !== 189 && event.keyCode !== 187;"
+                          onkeydown="return event.keyCode !== 189 && event.keyCode !== 187 && event.keyCode !== 69;"
                         />
                       </div>
                     </div>
@@ -59,6 +59,7 @@
                       class="btn btn-primary w-100 greenButton"
                       data-toggle="modal"
                       data-target="#exampleModal"
+                      
                     >
                       Purchase
                     </button>
@@ -83,9 +84,9 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div v-if="amountval == null">
+                          <div v-if="amountval === null || amountval === 0">
                             <div class="modal-body">
-                              <h3><b> Enter data</b></h3>
+                              <h3><b> Enter some value</b></h3>
                             </div>
                           </div>
                           <div v-else>
@@ -224,6 +225,8 @@ export default {
     const validation = computed(() => {
       return coinSelect.value == "" || amountval.value == "";
     });
+
+    
 
     const GetPrice = async () => {
       const btcResponse = await cryptoyaApi.getBTC();

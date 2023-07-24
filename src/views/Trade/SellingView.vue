@@ -40,7 +40,7 @@
                             placeholder="0.3456"
                             min="0.00001"
                             v-model="amountval"
-                            onkeydown="return event.keyCode !== 189 && event.keyCode !== 187;"
+                            onkeydown="return event.keyCode !== 189 && event.keyCode !== 187 && event.keyCode !== 69;"
                           />
                         </div>
                       </div>
@@ -56,7 +56,9 @@
                             parseFloat(usdcamount) === 0)
                         "
                       >
-                        <strong>You don't have any coin yet, Buy right now!</strong>
+                        <strong
+                          >You don't have any coin yet, Buy right now!</strong
+                        >
                       </div>
                       <div
                         class="alert alert-danger alert-dismissible fade show"
@@ -72,18 +74,7 @@
                         class="btn btn-danger w-100"
                         data-toggle="modal"
                         data-target="#exampleModal"
-                        v-if="
-                          !(
-                            (coinSelect === 'btc' &&
-                              parseFloat(btcamount) === 0) ||
-                            (coinSelect === 'eth' &&
-                              parseFloat(ethamount) === 0) ||
-                            (coinSelect === 'usdc' &&
-                              parseFloat(usdcamount) === 0) ||
-                            parseFloat(sellingData.money) >
-                              parseFloat(giftmoney)
-                          )
-                        "
+                        v-else
                       >
                         Sell
                       </button>
@@ -108,11 +99,20 @@
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
-                            <div v-if="amountval == null">
+                            <!-- <div v-if="amountval === null || amountval === 0">
                               <div class="modal-body">
                                 <h3><b> Enter data</b></h3>
                               </div>
+                            </div> -->
+                            <div v-if="coinSelect === null && amountval === null || amountval === 0 ||
+                            coinSelect !== null && amountval === null || amountval === 0 ||
+                            coinSelect === null && amountval !== null"
+                            >
+                              <div class="modal-body">
+                                <h3><b> Enter some coin...</b></h3>
+                              </div>
                             </div>
+                          
                             <div v-else>
                               <div class="modal-body">
                                 <h3><b> Are you sure?</b></h3>
